@@ -1,0 +1,7 @@
+play 3;2
+termo stanley;3
+play 5;4
+raid mata cucarachas;5
+guitarra fender telecaster;3
+amplificador wenstone;67
+yerba taragui;5
