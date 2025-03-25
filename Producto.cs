@@ -76,32 +76,56 @@ namespace Musimundo
         }
         public static void ProductoConMayorStock()
         {
-            Producto pConMasStock = TodosLosProductos[0];
-            foreach (Producto producto in TodosLosProductos)
+            if (TodosLosProductos.Count != 0)
             {
-                if (producto.GetStock() > pConMasStock.GetStock())
+                Producto pConMasStock = TodosLosProductos[0];
+                foreach (Producto producto in TodosLosProductos)
                 {
-                    pConMasStock = producto;
+                    if (producto.GetStock() > pConMasStock.GetStock())
+                    {
+                        pConMasStock = producto;
+                    }
                 }
+                Console.WriteLine($"Producto con mayor stock: {pConMasStock.Descripcion} - stock: {pConMasStock.GetStock()}");
+
+
+                // MEJOR OPCION
+                // Se ordena de manera descendente, y se obtiene el primer elemento
+                //Producto productoMayorStock = TodosLosProductos.OrderByDescending(p => p.Stock).FirstOrDefault();
             }
-            Console.WriteLine($"Producto con mayor stock: {pConMasStock.Descripcion} - stock: {pConMasStock.GetStock()}");
+            else
+            {
+                Console.WriteLine($"Producto con mayor stock: No hay productos");
+            }
+
         }
         public static void ProductoConMenorStock()
         {
-            Producto pConMenosStock = TodosLosProductos[0];
-            foreach (Producto producto in TodosLosProductos)
+            if (TodosLosProductos.Count != 0)
             {
-                if (producto.GetStock() < pConMenosStock.GetStock())
+                Producto pConMenosStock = TodosLosProductos[0];
+                foreach (Producto producto in TodosLosProductos)
                 {
-                    pConMenosStock = producto;
+                    if (producto.GetStock() < pConMenosStock.GetStock())
+                    {
+                        pConMenosStock = producto;
+                    }
                 }
+                Console.WriteLine($"Producto con menor stock: {pConMenosStock.Descripcion} - stock: {pConMenosStock.GetStock()}");
+
+                // MEJOR OPCION
+                // Se ordena de manera ascendente, y se obtiene el primer elemento
+                Producto productoMayorStock = TodosLosProductos.OrderBy(p => p.Stock).FirstOrDefault();
             }
-            Console.WriteLine($"Producto con menor stock: {pConMenosStock.Descripcion} - stock: {pConMenosStock.GetStock()}");
+            else
+            {
+                Console.WriteLine($"Producto con menor stock: No hay productos");
+            }
         }
 
         public static void GenerarReporte()
         {
-            Console.WriteLine($"Total de productos en inventario {TotalProductos}\n");
+            Console.WriteLine($"Total de productos en inventario {TodosLosProductos.Sum(p => p.Stock)}\n");
             ProductoConMayorStock();
             ProductoConMenorStock();
             OrdenarPorStock();
@@ -118,7 +142,7 @@ namespace Musimundo
                 {
                     Console.Clear();
                     Console.WriteLine("Producto " + TodosLosProductos[productoAEliminar - 1].Descripcion + " eliminado con exito.\n");
-                    TotalProductos -= TodosLosProductos[productoAEliminar - 1].GetStock();
+                    TotalProductos -= TodosLosProductos[productoAEliminar - 1].GetStock(); //
                     TodosLosProductos.Remove(TodosLosProductos[productoAEliminar - 1]);
                 }
                 else if (confirmaEliminar == 2)
@@ -139,27 +163,28 @@ namespace Musimundo
             Console.Clear();
             Console.WriteLine("la opcion elegida es: " + Descripcion);
             Console.WriteLine("ingresá el nuevo nombre del producto\n");
-            Descripcion = Console.ReadLine();
+            Descripcion = Console.ReadLine().Trim(); 
             Console.WriteLine("Stock inicial: " + GetStock());
             Console.WriteLine("ingresá la nueva cantidad de stock del producto\n");
             SetStock(int.Parse(Console.ReadLine()));
-            if (Descripcion != "")
-            {
-                Console.Clear();
-                Console.WriteLine("Producto editado.\n");
-                return;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("ingrese un  nombre valido para el producto. intente nuevamente");
-            }
+
+            //if (Descripcion != "")
+            //{
+            //    Console.Clear();
+            //    Console.WriteLine("Producto editado.\n");
+            //    return;
+            //}
+            //else
+            //{
+            //    Console.Clear();
+            //    Console.WriteLine("ingrese un  nombre valido para el producto. intente nuevamente");
+            //}
         }
         public static void Buscar()
         {
             Console.Clear();
             Console.WriteLine("ingresá el producto que querés buscar");
-            var productoBuscado = Console.ReadLine();
+            var productoBuscado = Console.ReadLine().Trim();
             var productoEncontrado = TodosLosProductos.Find(producto => producto.Descripcion.Contains(productoBuscado));
             if (productoEncontrado == null)
             {
@@ -173,7 +198,7 @@ namespace Musimundo
 
         public static void CargarArchivo()
         {
-            TextWriter archivo = new StreamWriter("C:\\Users\\braia\\source\\repos\\Musimundo\\datos-inventario-musimundo.TXT");
+            TextWriter archivo = new StreamWriter("C:\\Users\\juanc\\OneDrive\\Documentos\\musimundo\\db.txt");
             TodosLosProductos.ForEach(producto => archivo.WriteLine(producto.Descripcion + ";" + producto.GetStock()));
             archivo.Close();
         }

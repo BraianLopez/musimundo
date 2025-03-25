@@ -17,8 +17,12 @@ namespace Musimundo
             //Producto.AgregarProducto(producto1);
             //Producto.AgregarProducto(producto2);
             //Producto.AgregarProducto(producto3);
+
             try { 
-            string rutaDelArchivo = "C:\\Users\\braia\\source\\repos\\Musimundo\\datos-inventario-musimundo.TXT";
+
+            // HACER: SI EL ARCHIVO NO EXISTE, CREARLO
+            string rutaDelArchivo = "C:\\Users\\juanc\\OneDrive\\Documentos\\musimundo\\db.txt";
+
             using(StreamReader sr = new StreamReader(rutaDelArchivo))
             {
                 string linea;
@@ -65,10 +69,10 @@ namespace Musimundo
                     case 2:
                         Console.Clear();
                         Console.WriteLine("Ingrese descripción del producto: \n");
-                        descripcion = Console.ReadLine();
+                        descripcion = Console.ReadLine().Trim();
                         Console.Clear();
                         Console.WriteLine("\nIngrese stock inicial del producto: \n");
-                        if (int.TryParse(Console.ReadLine(), out int stock))
+                        if (int.TryParse(Console.ReadLine().Trim(), out int stock))
                         {
 
                         }
@@ -120,7 +124,7 @@ namespace Musimundo
             } while (opcion != 0);
             
             
-            Producto.CargarArchivo();
+            Producto.CargarArchivo(); // Lo ideal es que se vaya actualizando a medida que cargamos, editamos, o eliminamos
             
 
 
